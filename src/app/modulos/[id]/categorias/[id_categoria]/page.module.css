@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.header {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 6px solid var(--color-action);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.moduleBadge {
+  display: inline-block;
+  background-color: var(--color-bg-light);
+  color: var(--color-primary-dark);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--space-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-xs);
+}
+
+.description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+}
+
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-xl);
+  color: var(--color-primary-dark);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.emptyMessage {
+  background-color: var(--color-surface);
+  padding: var(--space-xl);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.notFoundContainer {
+  text-align: center;
+  padding: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.backButton {
+  display: inline-block;
+  background-color: var(--color-action);
+  color: #ffffff;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  font-weight: var(--font-weight-bold);
+}
+
+.backButton:hover {
+  background-color: var(--color-action-hover);
+  color: #ffffff;
+}

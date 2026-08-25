@@ -1,0 +1,51 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-xl) var(--space-md);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  min-height: 160px;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-primary-medium);
+  box-shadow: var(--shadow-md);
+  background-color: #ffffff;
+}
+
+.iconContainer {
+  background-color: var(--color-bg-light);
+  color: var(--color-primary-dark);
+  padding: var(--space-md);
+  border-radius: 50%;
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.card:hover .iconContainer {
+  background-color: var(--color-primary-dark);
+  color: #ffffff;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-dark);
+  margin: 0;
+  line-height: var(--line-height-normal);
+}
+
+.card:hover .title {
+  color: var(--color-action);
+}

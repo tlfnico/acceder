@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env.local
 
 # vercel
 .vercel
@@ -39,3 +40,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+docs/arquitectura.md
+.gitignore
+docs/decisiones-arquitectonicas.md
+docs/estado-del-desarrollo.md
+docs/contexto.md
+docs/modelo-de-datos.md
+docs/README.md
+docs/reglas-de-negocio.md
+docs/roles-y-permisos.md
+src/components/README.md
+src/lib/README.md
+src/data/README.md
