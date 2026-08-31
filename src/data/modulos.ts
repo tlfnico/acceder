@@ -1,27 +1,30 @@
 import { Modulo } from "@/lib/types";
-import { MOCK_MODULOS } from "./mock/modulos";
+import { query } from "./db";
 
 /**
  * Capa de Acceso a Datos de Módulos
  * 
- * Actualmente consulta los datos mock en src/data/mock/modulos.ts.
- * En la siguiente etapa, estas funciones serán reemplazadas para realizar
- * consultas a la base de datos PostgreSQL sin necesidad de alterar los componentes visuales ni la UI.
+ * Consultas reales a la base de datos PostgreSQL mediante driver 'pg'.
+ * Mantiene exactamente los nombres de funciones e interfaz esperada.
  */
 
 /**
  * Obtiene la lista de todos los módulos activos ordenados por el campo 'orden'.
  */
-export function getModulosActivos(): Modulo[] {
-  return MOCK_MODULOS
-    .filter((modulo) => modulo.activo)
-    .sort((a, b) => a.orden - b.orden);
+export async function getModulosActivos(): Promise<Modulo[]> {
+  const result = await query<Modulo>(
+    "SELECT id, nombre, activo, orden FROM modulo WHERE activo = true ORDER BY orden ASC;"
+  );
+  return result.rows;
 }
 
 /**
  * Obtiene un módulo por su ID único, únicamente si está activo.
  */
-export function getModuloById(id: number): Modulo | undefined {
-  const modulo = MOCK_MODULOS.find((m) => m.id === id);
-  return modulo && modulo.activo ? modulo : undefined;
+export async function getModuloById(id: number): Promise<Modulo | undefined> {
+  const result = await query<Modulo>(
+    "SELECT id, nombre, activo, orden FROM modulo WHERE id = $1 AND activo = true LIMIT 1;",
+    [id]
+  );
+  return result.rows[0] || undefined;
 }

@@ -25,9 +25,9 @@ export default async function ContentPage({ params }: ContentPageProps) {
     notFound();
   }
 
-  const modulo = getModuloById(idModulo);
-  const categoria = getCategoriaById(idCategoria);
-  const contenido = getContenidoById(idContenido);
+  const modulo = await getModuloById(idModulo);
+  const categoria = await getCategoriaById(idCategoria);
+  const contenido = await getContenidoById(idContenido);
 
   // Verificación estricta de pertenencia y estado activo
   if (

@@ -19,8 +19,8 @@ export default async function ModulePage({ params }: ModulePageProps) {
     notFound();
   }
 
-  // Obtener información del módulo (solo activos)
-  const modulo = getModuloById(idModulo);
+  // Obtener información del módulo desde PostgreSQL (solo activos)
+  const modulo = await getModuloById(idModulo);
 
   if (!modulo) {
     return (
@@ -34,8 +34,8 @@ export default async function ModulePage({ params }: ModulePageProps) {
     );
   }
 
-  // Obtener categorías activas del módulo
-  const categorias = getCategoriasPorModulo(idModulo);
+  // Obtener categorías activas del módulo desde PostgreSQL
+  const categorias = await getCategoriasPorModulo(idModulo);
 
   return (
     <div className={styles.container}>

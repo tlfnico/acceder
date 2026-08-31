@@ -24,8 +24,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const modulo = getModuloById(idModulo);
-  const categoria = getCategoriaById(idCategoria);
+  const modulo = await getModuloById(idModulo);
+  const categoria = await getCategoriaById(idCategoria);
 
   // Verificar que el módulo y la categoría existan, estén activos y coincida la relación
   if (!modulo || !categoria || categoria.id_modulo !== idModulo) {
@@ -40,8 +40,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     );
   }
 
-  // Obtener la lista de contenidos activos
-  const contenidos = getContenidosPorCategoria(idCategoria);
+  // Obtener la lista de contenidos activos desde PostgreSQL
+  const contenidos = await getContenidosPorCategoria(idCategoria);
 
   return (
     <div className={styles.container}>

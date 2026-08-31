@@ -3,9 +3,9 @@ import { getModulosActivos } from "@/data/modulos";
 import { ModuleCard } from "@/components/ModuleCard";
 import styles from "./page.module.css";
 
-export default function HomePage() {
-  // Consultar módulos activos ordenados por el campo 'orden'
-  const modulos = getModulosActivos();
+export default async function HomePage() {
+  // Consultar módulos activos desde PostgreSQL ordenados por el campo 'orden'
+  const modulos = await getModulosActivos();
 
   return (
     <div className={styles.wrapper}>
