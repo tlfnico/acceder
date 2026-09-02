@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:db": "tsx scripts/test-connection.ts",
+    "db:setup": "tsx scripts/setup-db.ts",
     "db:seed": "tsx scripts/seed-db.ts"
   },
   "dependencies": {
