@@ -22,6 +22,13 @@ async function main() {
   try {
     console.log('Ejecutando sentencias SQL de database/seed.sql...');
     await query(sql);
+
+    // Sincronizar secuencias de identidad
+    await query("SELECT setval(pg_get_serial_sequence('modulo', 'id'), COALESCE(MAX(id), 1)) FROM modulo;");
+    await query("SELECT setval(pg_get_serial_sequence('categoria', 'id'), COALESCE(MAX(id), 1)) FROM categoria;");
+    await query("SELECT setval(pg_get_serial_sequence('contenido', 'id'), COALESCE(MAX(id), 1)) FROM contenido;");
+    await query("SELECT setval(pg_get_serial_sequence('usuario', 'id'), COALESCE(MAX(id), 1)) FROM usuario;");
+
     console.log('¡Seed ejecutado exitosamente en PostgreSQL!');
 
     // Verificación de conteo no destructiva

@@ -27,3 +27,10 @@
   max-width: 600px;
   margin: 0 auto;
 }
+
+.credit {
+  font-size: var(--font-size-sm);
+  color: #E6F0FA;
+  margin-top: var(--space-xs);
+  font-weight: var(--font-weight-medium);
+}

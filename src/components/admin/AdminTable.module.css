@@ -1,0 +1,113 @@
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.table th {
+  background-color: #f5f7fa;
+  color: #333333;
+  font-weight: 700;
+  padding: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #eeeeee;
+  color: #333333;
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background-color: #f8fafd;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.inactiveRow {
+  background-color: #fafafa;
+  color: #757575;
+}
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.editBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.75rem;
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  border: 1px solid #bbdefb;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.editBtn:hover {
+  background-color: #bbdefb;
+  color: #0d47a1;
+}
+
+.editBtn:focus-visible {
+  outline: 2px solid #0d47a1;
+  outline-offset: 1px;
+}
+
+.toggleBtn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.deactivateBtn {
+  background-color: #fff3e0;
+  color: #e65100;
+  border-color: #ffe0b2;
+}
+
+.deactivateBtn:hover {
+  background-color: #ffe0b2;
+}
+
+.reactivateBtn {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-color: #c8e6c9;
+}
+
+.reactivateBtn:hover {
+  background-color: #c8e6c9;
+}
+
+.emptyState {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: #666666;
+  font-size: 1rem;
+}

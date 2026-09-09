@@ -9,6 +9,7 @@ export const Footer: React.FC = () => {
         <p className={styles.text}>
           Información pública sobre servicios, trámites y derechos para personas con discapacidad, familias y profesionales.
         </p>
+        <p className={styles.credit}>Realizado por Diaz Nicolas</p>
       </div>
     </footer>
   );

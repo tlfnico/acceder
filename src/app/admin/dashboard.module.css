@@ -1,0 +1,114 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.welcomeCard {
+  background-color: #ffffff;
+  padding: 1.75rem 2rem;
+  border-radius: 8px;
+  border-left: 5px solid #007bff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.welcomeTitle {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+}
+
+.welcomeSubtitle {
+  font-size: 1rem;
+  color: #555555;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.statCard {
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0d47a1;
+  margin: 0;
+}
+
+.totalBadge {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.metricsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metricRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: #555555;
+}
+
+.metricValue {
+  font-weight: 700;
+}
+
+.activeValue {
+  color: #2e7d32;
+}
+
+.inactiveValue {
+  color: #e65100;
+}
+
+.cardAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f7fa;
+  color: #0d47a1;
+  border: 1px solid #d0dbe5;
+  border-radius: 6px;
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.cardAction:hover {
+  background-color: #007bff;
+  color: #ffffff;
+  border-color: #007bff;
+}
+
+.cardAction:focus-visible {
+  outline: 3px solid #0d47a1;
+  outline-offset: 2px;
+}
