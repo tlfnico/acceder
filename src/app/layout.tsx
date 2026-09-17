@@ -9,6 +9,10 @@ export const metadata: Metadata = {
     "Plataforma pública para consultar recursos, servicios, trámites y derechos de personas con discapacidad, sus familias y profesionales.",
 };
 
+// Forzar renderizado dinámico en tiempo real para reflejar cambios de base de datos inmediatamente
+export const dynamic = "force-dynamic";
+
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
