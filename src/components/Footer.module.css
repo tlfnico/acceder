@@ -34,3 +34,20 @@
   margin-top: var(--space-xs);
   font-weight: var(--font-weight-medium);
 }
+
+.attribution {
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: var(--font-size-xs);
+  color: #B0BEC5;
+}
+
+.attributionLink {
+  color: #90CAF9;
+  text-decoration: underline;
+}
+
+.attributionLink:hover {
+  color: #FFFFFF;
+}

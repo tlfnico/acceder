@@ -32,6 +32,19 @@
   background-color: var(--color-action);
   padding: var(--space-xs) var(--space-md);
   border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logoIcon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: 2px;
+  flex-shrink: 0;
 }
 
 .logoText {
