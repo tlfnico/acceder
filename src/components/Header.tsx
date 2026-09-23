@@ -8,19 +8,16 @@ export const Header: React.FC = () => {
     <header className={styles.header}>
       <div className={styles.container}>
         <Link href="/" className={styles.logoLink} aria-label="ACCEDER - Ir al Inicio">
-          <div className={styles.brandBadge}>
-            <Image
-              src="/logo-accesibilidad.png"
-              alt=""
-              width={28}
-              height={28}
-              className={styles.logoIcon}
-              aria-hidden="true"
-              priority
-            />
-            <span className={styles.logoText}>ACCEDER</span>
-          </div>
-          <span className={styles.tagline}>Recursero Digital de Accesibilidad</span>
+          <Image
+            src="/logo-accesibilidad.png"
+            alt=""
+            width={44}
+            height={44}
+            className={styles.logoIcon}
+            aria-hidden="true"
+            priority
+          />
+          <span className={styles.logoText}>ACCEDER</span>
         </Link>
         <nav className={styles.nav} aria-label="Navegación principal">
           <Link href="/" className={styles.navLink}>

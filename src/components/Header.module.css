@@ -19,7 +19,7 @@
 .logoLink {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   color: #ffffff;
   text-decoration: none;
 }
@@ -28,43 +28,21 @@
   color: #ffffff;
 }
 
-.brandBadge {
-  background-color: var(--color-action);
-  padding: var(--space-xs) var(--space-md);
-  border-radius: var(--border-radius-sm);
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
 .logoIcon {
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
   background-color: #ffffff;
   border-radius: 50%;
-  padding: 2px;
+  padding: 3px;
   flex-shrink: 0;
 }
 
 .logoText {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.05em;
   color: #ffffff;
-}
-
-.tagline {
-  font-size: var(--font-size-sm);
-  color: #E0E0E0;
-  font-weight: var(--font-weight-medium);
-  display: none;
-}
-
-@media (min-width: 600px) {
-  .tagline {
-    display: inline;
-  }
 }
 
 .nav {
