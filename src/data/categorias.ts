@@ -172,3 +172,18 @@ export async function getCategoriasStats(): Promise<{ total: number; activas: nu
     inactivas: parseInt(row?.inactivas || "0", 10),
   };
 }
+
+/**
+ * Valida si una categoría existe, pertenece al módulo indicado y opcionalmente si está activa.
+ */
+export async function validarCategoriaModulo(
+  idCategoria: number,
+  idModulo: number,
+  soloActiva: boolean = true
+): Promise<boolean> {
+  const querySql = soloActiva
+    ? "SELECT id FROM categoria WHERE id = $1 AND id_modulo = $2 AND activo = true LIMIT 1;"
+    : "SELECT id FROM categoria WHERE id = $1 AND id_modulo = $2 LIMIT 1;";
+  const result = await query(querySql, [idCategoria, idModulo]);
+  return result.rows.length > 0;
+}

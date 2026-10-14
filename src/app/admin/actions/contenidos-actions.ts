@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { verifySessionAction } from "@/lib/dal";
-import { createContenido, updateContenido, toggleActivoContenido } from "@/data/contenidos";
+import { createContenido, updateContenido, toggleActivoContenido, getContenidoByIdAdmin } from "@/data/contenidos";
+import { validarCategoriaModulo } from "@/data/categorias";
 
 export interface ContenidoFormState {
   error?: string;
@@ -18,6 +19,7 @@ export async function crearContenidoAction(
 ): Promise<ContenidoFormState | undefined> {
   await verifySessionAction();
 
+  const idModuloStr = formData.get("id_modulo")?.toString().trim();
   const idCategoriaStr = formData.get("id_categoria")?.toString().trim();
   const titulo = formData.get("titulo")?.toString().trim();
   const descripcion = formData.get("descripcion")?.toString().trim();
@@ -28,13 +30,20 @@ export async function crearContenidoAction(
   const horario = formData.get("horario")?.toString().trim() || null;
   const activo = formData.get("activo") === "on";
 
-  if (!idCategoriaStr || !titulo || !descripcion) {
-    return { error: "Por favor complete la categoría, título y descripción del contenido." };
+  if (!idModuloStr || !idCategoriaStr || !titulo || !descripcion) {
+    return { error: "Por favor seleccione el módulo, categoría y complete título y descripción." };
   }
 
+  const idModulo = parseInt(idModuloStr, 10);
   const idCategoria = parseInt(idCategoriaStr, 10);
-  if (isNaN(idCategoria) || idCategoria <= 0) {
-    return { error: "Debe seleccionar una categoría válida." };
+  if (isNaN(idModulo) || idModulo <= 0 || isNaN(idCategoria) || idCategoria <= 0) {
+    return { error: "Debe seleccionar un módulo y una categoría válida." };
+  }
+
+  // Validación de seguridad en servidor: la categoría debe existir, estar activa y pertenecer al módulo
+  const esValida = await validarCategoriaModulo(idCategoria, idModulo, true);
+  if (!esValida) {
+    return { error: "La categoría seleccionada no existe, no está activa o no pertenece al módulo indicado." };
   }
 
   try {
@@ -70,6 +79,7 @@ export async function editarContenidoAction(
 ): Promise<ContenidoFormState | undefined> {
   await verifySessionAction();
 
+  const idModuloStr = formData.get("id_modulo")?.toString().trim();
   const idCategoriaStr = formData.get("id_categoria")?.toString().trim();
   const titulo = formData.get("titulo")?.toString().trim();
   const descripcion = formData.get("descripcion")?.toString().trim();
@@ -80,13 +90,24 @@ export async function editarContenidoAction(
   const horario = formData.get("horario")?.toString().trim() || null;
   const activo = formData.get("activo") === "on";
 
-  if (!idCategoriaStr || !titulo || !descripcion) {
-    return { error: "Por favor complete la categoría, título y descripción del contenido." };
+  if (!idModuloStr || !idCategoriaStr || !titulo || !descripcion) {
+    return { error: "Por favor seleccione el módulo, categoría y complete título y descripción." };
   }
 
+  const idModulo = parseInt(idModuloStr, 10);
   const idCategoria = parseInt(idCategoriaStr, 10);
-  if (isNaN(idCategoria) || idCategoria <= 0) {
-    return { error: "Debe seleccionar una categoría válida." };
+  if (isNaN(idModulo) || idModulo <= 0 || isNaN(idCategoria) || idCategoria <= 0) {
+    return { error: "Debe seleccionar un módulo y una categoría válida." };
+  }
+
+  // Obtener contenido actual para saber si mantiene su categoría histórica o la está cambiando
+  const contenidoActual = await getContenidoByIdAdmin(id);
+  const esMismaCategoria = contenidoActual?.id_categoria === idCategoria;
+
+  // Validación de seguridad en servidor: si cambia de categoría debe ser activa; si mantiene la misma, debe pertenecer al módulo
+  const esValida = await validarCategoriaModulo(idCategoria, idModulo, !esMismaCategoria);
+  if (!esValida) {
+    return { error: "La categoría seleccionada no pertenece al módulo indicado o no se encuentra disponible." };
   }
 
   try {

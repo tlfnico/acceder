@@ -1,17 +1,34 @@
 "use client";
 
-import React, { useActionState } from "react";
+import React, { useState, useActionState } from "react";
 import Link from "next/link";
+import { Modulo } from "@/lib/types";
 import { CategoriaAdmin } from "@/data/categorias";
 import { crearContenidoAction, ContenidoFormState } from "../../actions/contenidos-actions";
 import styles from "../../admin-form.module.css";
 
 interface ContenidoCreateFormProps {
+  modulos: Modulo[];
   categorias: CategoriaAdmin[];
 }
 
-export default function ContenidoCreateForm({ categorias }: ContenidoCreateFormProps) {
+export default function ContenidoCreateForm({ modulos, categorias }: ContenidoCreateFormProps) {
   const [state, formAction, isPending] = useActionState(crearContenidoAction, undefined);
+
+  const [selectedModuloId, setSelectedModuloId] = useState<number | "">("");
+  const [selectedCategoriaId, setSelectedCategoriaId] = useState<number | "">("");
+
+  // Manejar cambio de módulo y reiniciar la categoría para evitar asociaciones incorrectas
+  const handleModuloChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value ? parseInt(e.target.value, 10) : "";
+    setSelectedModuloId(val);
+    setSelectedCategoriaId("");
+  };
+
+  // Filtrar categorías activas pertenecientes al módulo seleccionado
+  const categoriasFiltradas = selectedModuloId
+    ? categorias.filter((c) => c.id_modulo === selectedModuloId)
+    : [];
 
   return (
     <div>
@@ -30,26 +47,65 @@ export default function ContenidoCreateForm({ categorias }: ContenidoCreateFormP
         )}
 
         <form action={formAction} className={styles.form}>
-          <div className={styles.formGroup}>
-            <label htmlFor="id_categoria" className={styles.label}>
-              Categoría Perteneciente <span className={styles.requiredTag}>*</span>
-            </label>
-            <select
-              id="id_categoria"
-              name="id_categoria"
-              required
-              defaultValue=""
-              className={styles.select}
-            >
-              <option value="" disabled>
-                -- Seleccione una Categoría --
-              </option>
-              {categorias.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.modulo_nombre} › {c.nombre} {!c.activo ? "(Inactiva)" : ""}
-                </option>
-              ))}
-            </select>
+          <div className={styles.formGrid}>
+            <div className={styles.formGroup}>
+              <label htmlFor="id_modulo" className={styles.label}>
+                Módulo <span className={styles.requiredTag}>*</span>
+              </label>
+              <select
+                id="id_modulo"
+                name="id_modulo"
+                required
+                value={selectedModuloId}
+                onChange={handleModuloChange}
+                className={styles.select}
+              >
+                <option value="">-- Seleccione un Módulo --</option>
+                {modulos.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="id_categoria" className={styles.label}>
+                Categoría <span className={styles.requiredTag}>*</span>
+              </label>
+              <select
+                id="id_categoria"
+                name="id_categoria"
+                required
+                disabled={!selectedModuloId || categoriasFiltradas.length === 0}
+                value={selectedCategoriaId}
+                onChange={(e) => setSelectedCategoriaId(e.target.value ? parseInt(e.target.value, 10) : "")}
+                className={styles.select}
+                aria-describedby={selectedModuloId && categoriasFiltradas.length === 0 ? "categoria-vacia-hint" : undefined}
+              >
+                {!selectedModuloId ? (
+                  <option value="">-- Primero seleccione un Módulo --</option>
+                ) : categoriasFiltradas.length === 0 ? (
+                  <option value="" disabled>
+                    Este módulo no posee categorías activas disponibles
+                  </option>
+                ) : (
+                  <>
+                    <option value="">-- Seleccione una Categoría --</option>
+                    {categoriasFiltradas.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.nombre}
+                      </option>
+                    ))}
+                  </>
+                )}
+              </select>
+              {selectedModuloId && categoriasFiltradas.length === 0 && (
+                <span id="categoria-vacia-hint" className={styles.hint} role="status" style={{ color: "#d32f2f" }}>
+                  El módulo seleccionado no cuenta con categorías activas disponibles.
+                </span>
+              )}
+            </div>
           </div>
 
           <div className={styles.formGroup}>
