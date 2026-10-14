@@ -37,6 +37,11 @@ export default async function AdminContenidosPage() {
       width: "180px",
     },
     {
+      header: "Orden",
+      accessor: "orden" as keyof ContenidoAdmin,
+      width: "70px",
+    },
+    {
       header: "Estado",
       width: "130px",
       render: (c: ContenidoAdmin) => <StatusBadge activo={c.activo} />,

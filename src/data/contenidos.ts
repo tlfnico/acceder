@@ -16,11 +16,11 @@ import { query } from "./db";
  */
 export async function getContenidosPorCategoria(idCategoria: number): Promise<Contenido[]> {
   const result = await query<Contenido>(
-    `SELECT id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, activo, 
+    `SELECT id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, orden, activo, 
             fecha_creacion::text, fecha_modificacion::text 
      FROM contenido 
      WHERE id_categoria = $1 AND activo = true 
-     ORDER BY id ASC;`,
+     ORDER BY orden ASC, id ASC;`,
     [idCategoria]
   );
   return result.rows;
@@ -31,7 +31,7 @@ export async function getContenidosPorCategoria(idCategoria: number): Promise<Co
  */
 export async function getContenidoById(idContenido: number): Promise<Contenido | undefined> {
   const result = await query<Contenido>(
-    `SELECT id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, activo, 
+    `SELECT id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, orden, activo, 
             fecha_creacion::text, fecha_modificacion::text 
      FROM contenido 
      WHERE id = $1 AND activo = true 
@@ -53,18 +53,18 @@ export interface ContenidoAdmin extends Contenido {
 
 /**
  * Obtiene todos los contenidos (activos e inactivos) para el panel de administración,
- * uniendo nombres de categoría y módulo.
+ * uniendo nombres de categoría y módulo, ordenados por módulo, categoría y orden de contenido.
  */
 export async function getAllContenidosAdmin(): Promise<ContenidoAdmin[]> {
   const result = await query<ContenidoAdmin>(
-    `SELECT c.id, c.id_categoria, c.titulo, c.descripcion, c.direccion, c.telefono, c.email, c.enlace, c.horario, c.activo, 
+    `SELECT c.id, c.id_categoria, c.titulo, c.descripcion, c.direccion, c.telefono, c.email, c.enlace, c.horario, c.orden, c.activo, 
             c.fecha_creacion::text, c.fecha_modificacion::text,
             cat.nombre AS categoria_nombre, cat.id_modulo,
             m.nombre AS modulo_nombre
      FROM contenido c
      INNER JOIN categoria cat ON c.id_categoria = cat.id
      INNER JOIN modulo m ON cat.id_modulo = m.id
-     ORDER BY m.orden ASC, cat.orden ASC, c.id ASC;`
+     ORDER BY m.orden ASC, cat.orden ASC, c.orden ASC, c.id ASC;`
   );
   return result.rows;
 }
@@ -74,7 +74,7 @@ export async function getAllContenidosAdmin(): Promise<ContenidoAdmin[]> {
  */
 export async function getContenidoByIdAdmin(idContenido: number): Promise<ContenidoAdmin | undefined> {
   const result = await query<ContenidoAdmin>(
-    `SELECT c.id, c.id_categoria, c.titulo, c.descripcion, c.direccion, c.telefono, c.email, c.enlace, c.horario, c.activo, 
+    `SELECT c.id, c.id_categoria, c.titulo, c.descripcion, c.direccion, c.telefono, c.email, c.enlace, c.horario, c.orden, c.activo, 
             c.fecha_creacion::text, c.fecha_modificacion::text,
             cat.nombre AS categoria_nombre, cat.id_modulo,
             m.nombre AS modulo_nombre
@@ -90,7 +90,7 @@ export async function getContenidoByIdAdmin(idContenido: number): Promise<Conten
 
 /**
  * Crea un nuevo contenido en PostgreSQL.
- * Admite valores NULL explícitos en campos de contacto opcionales.
+ * Admite valores NULL explícitos en campos de contacto opcionales y orden de despliegue.
  */
 export async function createContenido(data: {
   id_categoria: number;
@@ -101,14 +101,15 @@ export async function createContenido(data: {
   email?: string | null;
   enlace?: string | null;
   horario?: string | null;
+  orden?: number;
   activo?: boolean;
 }): Promise<Contenido> {
   const result = await query<Contenido>(
     `INSERT INTO contenido (
-       id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, activo
+       id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, orden, activo
      )
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-     RETURNING id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, activo,
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+     RETURNING id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, orden, activo,
                fecha_creacion::text, fecha_modificacion::text;`,
     [
       data.id_categoria,
@@ -119,6 +120,7 @@ export async function createContenido(data: {
       data.email?.trim() || null,
       data.enlace?.trim() || null,
       data.horario?.trim() || null,
+      data.orden !== undefined ? data.orden : 0,
       data.activo !== undefined ? data.activo : true,
     ]
   );
@@ -139,15 +141,16 @@ export async function updateContenido(
     email?: string | null;
     enlace?: string | null;
     horario?: string | null;
+    orden?: number;
     activo: boolean;
   }
 ): Promise<Contenido | undefined> {
   const result = await query<Contenido>(
     `UPDATE contenido
      SET id_categoria = $1, titulo = $2, descripcion = $3, direccion = $4, telefono = $5,
-         email = $6, enlace = $7, horario = $8, activo = $9
-     WHERE id = $10
-     RETURNING id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, activo,
+         email = $6, enlace = $7, horario = $8, orden = $9, activo = $10
+     WHERE id = $11
+     RETURNING id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, orden, activo,
                fecha_creacion::text, fecha_modificacion::text;`,
     [
       data.id_categoria,
@@ -158,6 +161,7 @@ export async function updateContenido(
       data.email?.trim() || null,
       data.enlace?.trim() || null,
       data.horario?.trim() || null,
+      data.orden !== undefined ? data.orden : 0,
       data.activo,
       id,
     ]
@@ -176,7 +180,7 @@ export async function toggleActivoContenido(
     `UPDATE contenido
      SET activo = $1
      WHERE id = $2
-     RETURNING id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, activo,
+     RETURNING id, id_categoria, titulo, descripcion, direccion, telefono, email, enlace, horario, orden, activo,
                fecha_creacion::text, fecha_modificacion::text;`,
     [activo, id]
   );

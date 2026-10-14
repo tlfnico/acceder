@@ -31,6 +31,7 @@ export interface Contenido {
   email: string | null;
   enlace: string | null;
   horario: string | null;
+  orden: number;
   activo: boolean;
   fecha_creacion: string;
   fecha_modificacion: string;

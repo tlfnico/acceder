@@ -28,6 +28,8 @@ export async function crearContenidoAction(
   const email = formData.get("email")?.toString().trim() || null;
   const enlace = formData.get("enlace")?.toString().trim() || null;
   const horario = formData.get("horario")?.toString().trim() || null;
+  const ordenStr = formData.get("orden")?.toString().trim();
+  const orden = parseInt(ordenStr || "0", 10);
   const activo = formData.get("activo") === "on";
 
   if (!idModuloStr || !idCategoriaStr || !titulo || !descripcion) {
@@ -56,6 +58,7 @@ export async function crearContenidoAction(
       email,
       enlace,
       horario,
+      orden: isNaN(orden) || orden < 0 ? 0 : orden,
       activo,
     });
   } catch (error) {
@@ -88,6 +91,8 @@ export async function editarContenidoAction(
   const email = formData.get("email")?.toString().trim() || null;
   const enlace = formData.get("enlace")?.toString().trim() || null;
   const horario = formData.get("horario")?.toString().trim() || null;
+  const ordenStr = formData.get("orden")?.toString().trim();
+  const orden = parseInt(ordenStr || "0", 10);
   const activo = formData.get("activo") === "on";
 
   if (!idModuloStr || !idCategoriaStr || !titulo || !descripcion) {
@@ -120,6 +125,7 @@ export async function editarContenidoAction(
       email,
       enlace,
       horario,
+      orden: isNaN(orden) || orden < 0 ? 0 : orden,
       activo,
     });
 

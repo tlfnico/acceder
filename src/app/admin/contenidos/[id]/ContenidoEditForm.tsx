@@ -223,6 +223,22 @@ export default function ContenidoEditForm({
             />
           </div>
 
+          <div className={styles.formGroup} style={{ maxWidth: "220px" }}>
+            <label htmlFor="orden" className={styles.label}>
+              Orden de Despliegue <span className={styles.requiredTag}>*</span>
+            </label>
+            <input
+              id="orden"
+              name="orden"
+              type="number"
+              min={0}
+              defaultValue={contenido.orden ?? 0}
+              required
+              className={styles.input}
+            />
+            <span className={styles.hint}>Posición numérica dentro de la categoría.</span>
+          </div>
+
           <div className={styles.checkboxGroup}>
             <input
               type="checkbox"
