@@ -151,3 +151,33 @@ h1, h2, h3, h4, h5, h6 {
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================================
+   Accesibilidad: Escala tipográfica aumentada (+20%) para el portal público
+   Modifica exclusivamente la escala de fuentes sin alterar paddings ni márgenes.
+   ========================================================================== */
+body[data-text-size="large"] {
+  --font-size-xs: 0.9rem;
+  --font-size-sm: 1.05rem;
+  --font-size-base: 1.2rem;
+  --font-size-lg: 1.35rem;
+  --font-size-xl: 1.65rem;
+  --font-size-2xl: 2.1rem;
+  --font-size-3xl: 2.7rem;
+}
+
+/* Aislamiento estricto: el panel administrativo permanece SIEMPRE en tamaño estándar */
+body[data-text-size="large"] [class*="adminWrapper"],
+body[data-text-size="large"] [class*="loginWrapper"],
+body[data-text-size="large"] #admin-main,
+body[data-text-size="large"] header[class*="AdminHeader"] {
+  --font-size-xs: 0.75rem !important;
+  --font-size-sm: 0.875rem !important;
+  --font-size-base: 1rem !important;
+  --font-size-lg: 1.125rem !important;
+  --font-size-xl: 1.375rem !important;
+  --font-size-2xl: 1.75rem !important;
+  --font-size-3xl: 2.25rem !important;
+  font-size: 1rem !important;
+}
+

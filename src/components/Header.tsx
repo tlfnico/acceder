@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { TextSizeToggle } from "./TextSizeToggle";
 import styles from "./Header.module.css";
 
 export const Header: React.FC = () => {
@@ -23,6 +24,7 @@ export const Header: React.FC = () => {
           <Link href="/" className={styles.navLink}>
             Inicio
           </Link>
+          <TextSizeToggle />
         </nav>
       </div>
     </header>
