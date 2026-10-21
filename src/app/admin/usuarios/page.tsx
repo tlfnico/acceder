@@ -49,7 +49,11 @@ export default async function AdminUsuariosPage() {
         const isCurrentSelf = u.id === session.userId;
         return (
           <div className={tableStyles.actionsCell}>
-            <Link href={`/admin/usuarios/${u.id}`} className={tableStyles.editBtn}>
+            <Link
+              href={`/admin/usuarios/${u.id}`}
+              className={tableStyles.editBtn}
+              aria-label={`Editar usuario ${u.nombre} ${u.apellido}`}
+            >
               Editar
             </Link>
             {!isCurrentSelf ? (
@@ -91,6 +95,7 @@ export default async function AdminUsuariosPage() {
         columns={columns}
         data={usuarios}
         keyExtractor={(u) => u.id}
+        caption="Listado de usuarios administrables"
         emptyMessage="No hay usuarios registrados en la base de datos."
         isRowInactive={(u) => !u.activo}
       />

@@ -12,6 +12,7 @@ interface AdminTableProps<T> {
   columns: Column<T>[];
   data: T[];
   keyExtractor: (item: T) => string | number;
+  caption: string;
   emptyMessage?: string;
   isRowInactive?: (item: T) => boolean;
 }
@@ -20,6 +21,7 @@ export function AdminTable<T>({
   columns,
   data,
   keyExtractor,
+  caption,
   emptyMessage = "No se encontraron registros.",
   isRowInactive,
 }: AdminTableProps<T>) {
@@ -34,10 +36,11 @@ export function AdminTable<T>({
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
+        <caption className={styles.visuallyHidden}>{caption}</caption>
         <thead>
           <tr>
             {columns.map((col, index) => (
-              <th key={index} style={{ width: col.width }}>
+              <th key={index} scope="col" style={{ width: col.width }}>
                 {col.header}
               </th>
             ))}

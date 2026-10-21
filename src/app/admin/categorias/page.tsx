@@ -48,7 +48,11 @@ export default async function AdminCategoriasPage() {
         const toggleActionWithArgs = toggleActivoCategoriaAction.bind(null, c.id, c.activo);
         return (
           <div className={tableStyles.actionsCell}>
-            <Link href={`/admin/categorias/${c.id}`} className={tableStyles.editBtn}>
+            <Link
+              href={`/admin/categorias/${c.id}`}
+              className={tableStyles.editBtn}
+              aria-label={`Editar categoría ${c.nombre}`}
+            >
               Editar
             </Link>
             <form action={toggleActionWithArgs} style={{ display: "inline" }}>
@@ -86,6 +90,7 @@ export default async function AdminCategoriasPage() {
         columns={columns}
         data={categorias}
         keyExtractor={(c) => c.id}
+        caption="Listado de categorías administrables"
         emptyMessage="No hay categorías registradas en la base de datos."
         isRowInactive={(c) => !c.activo}
       />

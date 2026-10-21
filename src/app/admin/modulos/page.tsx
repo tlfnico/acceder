@@ -44,7 +44,11 @@ export default async function AdminModulosPage() {
         const toggleActionWithArgs = toggleActivoModuloAction.bind(null, m.id, m.activo);
         return (
           <div className={tableStyles.actionsCell}>
-            <Link href={`/admin/modulos/${m.id}`} className={tableStyles.editBtn}>
+            <Link
+              href={`/admin/modulos/${m.id}`}
+              className={tableStyles.editBtn}
+              aria-label={`Editar módulo ${m.nombre}`}
+            >
               Editar
             </Link>
             <form action={toggleActionWithArgs} style={{ display: "inline" }}>
@@ -82,6 +86,7 @@ export default async function AdminModulosPage() {
         columns={columns}
         data={modulos}
         keyExtractor={(m) => m.id}
+        caption="Listado de módulos administrables"
         emptyMessage="No hay módulos registrados en la base de datos."
         isRowInactive={(m) => !m.activo}
       />

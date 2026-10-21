@@ -53,7 +53,11 @@ export default async function AdminContenidosPage() {
         const toggleActionWithArgs = toggleActivoContenidoAction.bind(null, c.id, c.activo);
         return (
           <div className={tableStyles.actionsCell}>
-            <Link href={`/admin/contenidos/${c.id}`} className={tableStyles.editBtn}>
+            <Link
+              href={`/admin/contenidos/${c.id}`}
+              className={tableStyles.editBtn}
+              aria-label={`Editar contenido ${c.titulo}`}
+            >
               Editar
             </Link>
             <form action={toggleActionWithArgs} style={{ display: "inline" }}>
@@ -91,6 +95,7 @@ export default async function AdminContenidosPage() {
         columns={columns}
         data={contenidos}
         keyExtractor={(c) => c.id}
+        caption="Listado de contenidos administrables"
         emptyMessage="No hay contenidos registrados en la base de datos."
         isRowInactive={(c) => !c.activo}
       />
