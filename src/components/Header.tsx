@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { TextSizeToggle } from "./TextSizeToggle";
+import { StaffAccessLink } from "./StaffAccessLink";
 import styles from "./Header.module.css";
 
 export const Header: React.FC = () => {
@@ -25,6 +26,7 @@ export const Header: React.FC = () => {
             Inicio
           </Link>
           <TextSizeToggle />
+          <StaffAccessLink />
         </nav>
       </div>
     </header>

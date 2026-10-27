@@ -66,3 +66,22 @@
   color: #ffffff;
   text-decoration: underline;
 }
+
+.navLink:focus-visible {
+  outline: 3px solid var(--color-highlight);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--space-sm);
+    gap: var(--space-sm);
+  }
+
+  .nav {
+    gap: var(--space-xs) var(--space-sm);
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
