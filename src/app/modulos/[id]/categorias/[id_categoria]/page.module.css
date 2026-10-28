@@ -6,24 +6,25 @@
 
 .header {
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-left: 6px solid var(--color-action);
+  border: 2px solid var(--color-border);
   border-radius: var(--border-radius-md);
   padding: var(--space-xl);
   box-shadow: var(--shadow-sm);
 }
 
 .moduleBadge {
-  display: inline-block;
-  background-color: var(--color-bg-light);
-  color: var(--color-primary-dark);
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-badge-bg);
+  color: var(--color-badge-text);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--border-radius-sm);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(11, 53, 88, 0.15);
   margin-bottom: var(--space-xs);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 .title {

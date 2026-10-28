@@ -3,18 +3,28 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-top: 4px solid var(--color-action);
+  border: 2px solid #B0BEC5;
   border-radius: var(--border-radius-md);
   padding: var(--space-lg);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .card:hover {
   transform: translateY(-2px);
+  border-color: #90A4AE;
   box-shadow: var(--shadow-md);
   background-color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+    transform: none;
+  }
+  .card:hover {
+    transform: none;
+  }
 }
 
 .body {
@@ -30,11 +40,17 @@
 .titleLink {
   color: var(--color-primary-dark);
   text-decoration: none;
+  border-radius: var(--border-radius-sm);
 }
 
 .titleLink:hover {
   color: var(--color-action);
   text-decoration: underline;
+}
+
+.titleLink:focus-visible {
+  outline: 3px solid var(--color-highlight);
+  outline-offset: 2px;
 }
 
 .description {
@@ -57,13 +73,16 @@
 }
 
 .badge {
-  background-color: var(--color-bg-light);
-  color: var(--color-primary-dark);
+  background-color: var(--color-badge-bg);
+  color: var(--color-badge-text);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--border-radius-sm);
-  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(11, 53, 88, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .footer {
@@ -80,9 +99,15 @@
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  border-radius: var(--border-radius-sm);
 }
 
 .detailButton:hover {
   text-decoration: underline;
   color: var(--color-action-hover);
+}
+
+.detailButton:focus-visible {
+  outline: 3px solid var(--color-highlight);
+  outline-offset: 2px;
 }

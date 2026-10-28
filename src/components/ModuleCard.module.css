@@ -15,10 +15,25 @@
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  border-color: var(--color-primary-medium);
+  transform: translateY(-2px);
+  border-color: #90A4AE;
   box-shadow: var(--shadow-md);
   background-color: #ffffff;
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--color-highlight);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+    transform: none;
+  }
+  .card:hover {
+    transform: none;
+  }
 }
 
 .iconContainer {

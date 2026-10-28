@@ -1,14 +1,17 @@
 /*
  * ACCEDER - Estilos Globales e Identidad Visual Institucional
  *
- * Paleta de colores oficial:
- * - #F4F7F9: Fondo principal y de superficie
- * - #007BFF: Azul de acción y enlaces
- * - #1476D2: Azul primario medio
- * - #0D47A1: Azul primario oscuro (encabezados, marcas)
- * - #1976D2: Azul secundario
- * - #29B6F6: Azul claro / resaltados
- * - #333333: Texto principal oscuro (alto contraste)
+ * Paleta institucional afinada (Alta accesibilidad WCAG AAA / AA):
+ * - #F4F7F9: Fondo principal y de superficie general
+ * - #0B3558: Azul marino profundo institucional (12.6:1 - WCAG AAA)
+ * - #145388: Azul intermedio institucional
+ * - #0B63D8: Azul zafiro para enlaces y acciones (5.58:1 - WCAG AA)
+ * - #084CA8: Azul oscuro para hover (7.6:1 - WCAG AAA)
+ * - #38BDF8: Celeste cielo suave para acentos y foco sobre fondos oscuros (6.44:1)
+ * - #1E293B: Carbón pizarra para texto principal (15.8:1 - WCAG AAA)
+ * - #475569: Pizarra medio para texto secundario (7.08:1 - WCAG AAA)
+ * - #B0BEC5: Borde gris neutro uniforme para delimitación de tarjetas
+ * - #EBF3FA: Azul hielo tenue para insignias y píldoras
  *
  * Tipografía: Roboto, sans-serif
  */
@@ -16,21 +19,24 @@
 :root {
   /* Paleta institucional de colores */
   --color-bg-light: #F4F7F9;
-  --color-primary-dark: #0D47A1;
-  --color-primary-medium: #1476D2;
-  --color-primary: #1976D2;
-  --color-action: #007BFF;
-  --color-action-hover: #0056b3;
-  --color-highlight: #29B6F6;
-  --color-text: #333333;
-  --color-text-muted: #555555;
+  --color-primary-dark: #0B3558;
+  --color-primary-medium: #145388;
+  --color-primary: #1A639B;
+  --color-action: #0B63D8;
+  --color-action-hover: #084CA8;
+  --color-highlight: #38BDF8;
+  --color-text: #1E293B;
+  --color-text-muted: #475569;
   --color-background: #F4F7F9;
   --color-surface: #FFFFFF;
-  --color-border: #D0D7DE;
+  --color-border: #B0BEC5;
+  --color-border-subtle: #E2E8F0;
+  --color-badge-bg: #EBF3FA;
+  --color-badge-text: #0B3558;
 
   /* Foco accesible */
-  --color-focus: #0D47A1;
-  --color-focus-outline: 3px solid #007BFF;
+  --color-focus: #0B3558;
+  --color-focus-outline: 3px solid #0B63D8;
 
   /* Tipografía institucional */
   --font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;

@@ -3,8 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-left: 5px solid var(--color-primary-medium);
+  border: 2px solid #B0BEC5;
   border-radius: var(--border-radius-md);
   padding: var(--space-lg);
   text-decoration: none;
@@ -14,10 +13,24 @@
 
 .card:hover {
   transform: translateY(-2px);
-  border-color: var(--color-action);
-  border-left-color: var(--color-action);
+  border-color: #90A4AE;
   box-shadow: var(--shadow-md);
   background-color: #ffffff;
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--color-highlight);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+    transform: none;
+  }
+  .card:hover {
+    transform: none;
+  }
 }
 
 .content {

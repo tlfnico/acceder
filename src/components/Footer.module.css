@@ -23,16 +23,38 @@
 
 .text {
   font-size: var(--font-size-sm);
-  color: #D0D7DE;
+  color: #E2E8F0;
   max-width: 600px;
   margin: 0 auto;
 }
 
 .credit {
   font-size: var(--font-size-sm);
-  color: #E6F0FA;
+  color: #F8FAFC;
   margin-top: var(--space-xs);
   font-weight: var(--font-weight-medium);
+}
+
+.contactLink {
+  color: #93C5FD;
+  text-decoration: underline;
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-fast);
+}
+
+.contactLink:hover {
+  color: #FFFFFF;
+}
+
+.contactLink:focus-visible {
+  outline: 3px solid var(--color-highlight);
+  outline-offset: 2px;
+  border-radius: var(--border-radius-sm);
+}
+
+.separator {
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 0.15rem;
 }
 
 .attribution {
@@ -40,7 +62,7 @@
   padding-top: var(--space-sm);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   font-size: var(--font-size-xs);
-  color: #B0BEC5;
+  color: #CBD5E1;
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
@@ -51,7 +73,7 @@
 }
 
 .attributionLink {
-  color: #90CAF9;
+  color: #93C5FD;
   text-decoration: underline;
 }
 
