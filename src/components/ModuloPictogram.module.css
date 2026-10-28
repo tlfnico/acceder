@@ -1,0 +1,13 @@
+.pictogram {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  display: block;
+}
+
+.fallbackSvg {
+  width: 68px;
+  height: 68px;
+  display: block;
+  color: var(--color-primary-dark);
+}

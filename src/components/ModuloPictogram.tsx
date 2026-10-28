@@ -1,149 +1,100 @@
 import React from "react";
+import Image from "next/image";
+import styles from "./ModuloPictogram.module.css";
 
 interface ModuloPictogramProps {
   idModulo: number;
-  nombreModulo: string;
+  nombreModulo?: string;
   className?: string;
 }
 
 /**
+ * Asociación explícita y directa entre el ID numérico del módulo y la ruta del pictograma ARASAAC.
+ * Rutas estáticas exactas basadas en los archivos presentes en public/pictogramas/.
+ *
+ * Módulos sin correspondencia (IDs 10 y 12):
+ * No se asignan imágenes arbitrarias; se reutilizan los gráficos vectoriales existentes
+ * como fallback seguro manteniendo las mismas dimensiones y alineación.
+ */
+const PICTOGRAMAS_ARASAAC: Record<number, string> = {
+  1: "/pictogramas/derechos.png",
+  2: "/pictogramas/salud.png",
+  3: "/pictogramas/educación.png",
+  4: "/pictogramas/productos%20de%20apoyo.png",
+  5: "/pictogramas/transporte.png",
+  6: "/pictogramas/turismo.png",
+  7: "/pictogramas/cultura.png",
+  8: "/pictogramas/mercado%20laboral.png",
+  9: "/pictogramas/comercio.png",
+  11: "/pictogramas/información.png",
+};
+
+/**
  * Componente de Pictograma para Módulos.
  *
- * Los pictogramas pertenecen estrictamente a la CAPA DE INTERFAZ (UI) y
- * NO se almacenan en la base de datos.
- *
- * Esta solución utiliza SVG nativos limpios, ligeros y accesibles.
- * Permite reemplazar fácilmente los gráficos en el futuro sin tocar el modelo de datos.
+ * Accesibilidad (WCAG 1.1.1):
+ * La imagen se renderiza con alt="" y aria-hidden="true" porque es un elemento gráfico
+ * de apoyo cognitivo. El nombre textual del módulo ya está provisto de forma semántica
+ * tanto en el título <h2> como en el aria-label del enlace contenedor.
  */
 export const ModuloPictogram: React.FC<ModuloPictogramProps> = ({
   idModulo,
-  nombreModulo,
   className = "",
 }) => {
-  // Selección del icono según el ID del módulo
-  switch (idModulo) {
-    case 1: // Derechos y CUD (Escudo / Documento / Balanza)
-      return (
-        <svg
-          className={className}
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          <path d="m9 12 2 2 4-4" />
-        </svg>
-      );
+  const pictogramaSrc = PICTOGRAMAS_ARASAAC[idModulo];
 
-    case 2: // Salud y Rehabilitación (Cruz médica / Corazón con pulso)
-      return (
-        <svg
-          className={className}
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-          <path d="M12 9v6" />
-          <path d="M9 12h6" />
-        </svg>
-      );
-
-    case 3: // Educación e Inclusión (Libro abierto / Birrete)
-      return (
-        <svg
-          className={className}
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-        </svg>
-      );
-
-    case 4: // Trabajo y Empleo (Maletín / Portafolio)
-      return (
-        <svg
-          className={className}
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-        </svg>
-      );
-
-    case 5: // Transporte y Movilidad (Autobús / Símbolo de accesibilidad)
-      return (
-        <svg
-          className={className}
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M8 6v6" />
-          <path d="M15 6v6" />
-          <path d="M2 12h19.6" />
-          <path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4c-1.1 0-2.1.8-2.4 1.8l-1.4 5c-.1.4-.2.8-.2 1.2 0 .4.1.8.2 1.2C.5 16.3 1 18 1 18h3" />
-          <circle cx="6.5" cy="17.5" r="2.5" />
-          <circle cx="16.5" cy="17.5" r="2.5" />
-        </svg>
-      );
-
-    default: // Pictograma genérico (Carpeta / Archivo)
-      return (
-        <svg
-          className={className}
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
-        </svg>
-      );
+  if (pictogramaSrc) {
+    return (
+      <Image
+        src={pictogramaSrc}
+        alt=""
+        width={68}
+        height={68}
+        className={`${styles.pictogram} ${className}`.trim()}
+        aria-hidden="true"
+        priority={false}
+      />
+    );
   }
+
+  // Fallback para Módulo 10: Dirección de Accesibilidad (Escudo / Sello institucional)
+  if (idModulo === 10) {
+    return (
+      <svg
+        className={`${styles.fallbackSvg} ${className}`.trim()}
+        width="68"
+        height="68"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+    );
+  }
+
+  // Fallback para Módulo 12 (Otros) o módulos futuros sin pictograma: Carpeta / Documentación
+  return (
+    <svg
+      className={`${styles.fallbackSvg} ${className}`.trim()}
+      width="68"
+      height="68"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+    </svg>
+  );
 };

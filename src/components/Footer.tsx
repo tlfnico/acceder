@@ -41,6 +41,27 @@ export const Footer: React.FC = () => {
             </a>
             )
           </p>
+          <p>
+            Pictogramas: Autor: Sergio Palao — Procedencia:{" "}
+            <a
+              href="https://arasaac.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.attributionLink}
+            >
+              ARASAAC
+            </a>{" "}
+            — Licencia:{" "}
+            <a
+              href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.attributionLink}
+            >
+              CC BY-NC-SA 4.0
+            </a>{" "}
+            — Titular: Gobierno de Aragón.
+          </p>
         </div>
       </div>
     </footer>
