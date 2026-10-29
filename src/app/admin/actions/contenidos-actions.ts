@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { verifySessionAction } from "@/lib/dal";
 import { createContenido, updateContenido, toggleActivoContenido, getContenidoByIdAdmin } from "@/data/contenidos";
 import { validarCategoriaModulo } from "@/data/categorias";
+import { normalizePhone, validateContentFields } from "@/lib/validation";
 
 export interface ContenidoFormState {
   error?: string;
@@ -36,6 +37,17 @@ export async function crearContenidoAction(
     return { error: "Por favor seleccione el módulo, categoría y complete título y descripción." };
   }
 
+  const validationError = validateContentFields({
+    titulo,
+    descripcion,
+    direccion,
+    telefono,
+    email,
+    enlace,
+    horario,
+  });
+  if (validationError) return { error: validationError };
+
   const idModulo = parseInt(idModuloStr, 10);
   const idCategoria = parseInt(idCategoriaStr, 10);
   if (isNaN(idModulo) || idModulo <= 0 || isNaN(idCategoria) || idCategoria <= 0) {
@@ -54,7 +66,7 @@ export async function crearContenidoAction(
       titulo,
       descripcion,
       direccion,
-      telefono,
+      telefono: telefono ? normalizePhone(telefono) : null,
       email,
       enlace,
       horario,
@@ -99,6 +111,17 @@ export async function editarContenidoAction(
     return { error: "Por favor seleccione el módulo, categoría y complete título y descripción." };
   }
 
+  const validationError = validateContentFields({
+    titulo,
+    descripcion,
+    direccion,
+    telefono,
+    email,
+    enlace,
+    horario,
+  });
+  if (validationError) return { error: validationError };
+
   const idModulo = parseInt(idModuloStr, 10);
   const idCategoria = parseInt(idCategoriaStr, 10);
   if (isNaN(idModulo) || idModulo <= 0 || isNaN(idCategoria) || idCategoria <= 0) {
@@ -121,7 +144,7 @@ export async function editarContenidoAction(
       titulo,
       descripcion,
       direccion,
-      telefono,
+      telefono: telefono ? normalizePhone(telefono) : null,
       email,
       enlace,
       horario,

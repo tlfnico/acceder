@@ -49,9 +49,9 @@ if (process.env.NODE_ENV !== 'production') {
 /**
  * Ejecuta una consulta SQL parametrizada reutilizando el Pool de conexiones.
  */
-export async function query<T extends QueryResultRow = any>(
+export async function query<T extends QueryResultRow = QueryResultRow>(
   text: string,
-  params?: any[]
+  params?: readonly unknown[]
 ): Promise<QueryResult<T>> {
-  return pool.query<T>(text, params);
+  return pool.query<T>(text, params as unknown[] | undefined);
 }

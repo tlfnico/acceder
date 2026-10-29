@@ -84,7 +84,7 @@ export interface UsuarioSeguro {
 }
 
 /**
- * Payload contenido en la cookie de sesión cifrada (acceder_session)
+ * Payload firmado contenido en la cookie de sesión (acceder_session)
  */
 export interface SessionPayload {
   userId: number;

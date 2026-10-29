@@ -3,7 +3,7 @@
 import React, { useActionState } from "react";
 import Link from "next/link";
 import { Modulo } from "@/lib/types";
-import { crearCategoriaAction, CategoriaFormState } from "../../actions/categorias-actions";
+import { crearCategoriaAction } from "../../actions/categorias-actions";
 import styles from "../../admin-form.module.css";
 
 interface CategoriaCreateFormProps {

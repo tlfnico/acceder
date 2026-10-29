@@ -38,7 +38,7 @@ export default async function EditContenidoPage({ params }: EditContenidoPagePro
   const initialModuloId = categoriaActual ? categoriaActual.id_modulo : undefined;
 
   // Si el módulo del contenido estuviera inactivo históricamente, se incluye para preservar la edición
-  let modulosDisponibles = [...modulos];
+  const modulosDisponibles = [...modulos];
   if (initialModuloId && !modulosDisponibles.some((m) => m.id === initialModuloId)) {
     const modActual = await getModuloByIdAdmin(initialModuloId);
     if (modActual) {

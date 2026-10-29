@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminAction } from "@/lib/dal";
 import { hashPassword } from "@/lib/auth-helpers";
+import { isValidEmail, isValidPassword, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } from "@/lib/validation";
 import {
   createUsuario,
   updateUsuario,
@@ -37,14 +38,13 @@ export async function crearUsuarioAction(
   }
 
   // Validación de email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
+  if (!isValidEmail(email)) {
     return { error: "El formato del correo electrónico es inválido." };
   }
 
   // Validación de longitud mínima de contraseña
-  if (contrasenia.length < 6) {
-    return { error: "La contraseña debe contener al menos 6 caracteres." };
+  if (!isValidPassword(contrasenia)) {
+    return { error: `La contraseña debe contener entre ${PASSWORD_MIN_LENGTH} y ${PASSWORD_MAX_LENGTH} caracteres.` };
   }
 
   const idRol = parseInt(idRolStr, 10);
@@ -102,8 +102,7 @@ export async function editarUsuarioAction(
     return { error: "Por favor complete todos los campos obligatorios." };
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
+  if (!isValidEmail(email)) {
     return { error: "El formato del correo electrónico es inválido." };
   }
 
@@ -116,8 +115,8 @@ export async function editarUsuarioAction(
     // Si se especificó una nueva contraseña, validarla y hashearla
     let contraseniaHash: string | undefined = undefined;
     if (contrasenia && contrasenia.trim().length > 0) {
-      if (contrasenia.length < 6) {
-        return { error: "La nueva contraseña debe contener al menos 6 caracteres." };
+      if (!isValidPassword(contrasenia)) {
+        return { error: `La nueva contraseña debe contener entre ${PASSWORD_MIN_LENGTH} y ${PASSWORD_MAX_LENGTH} caracteres.` };
       }
       contraseniaHash = await hashPassword(contrasenia);
     }

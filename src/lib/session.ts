@@ -4,33 +4,45 @@ import { SessionPayload } from "./types";
 
 const COOKIE_NAME = "acceder_session";
 const SESSION_DURATION_DAYS = 7;
+const MINIMUM_SECRET_BYTES = 32;
 
 function getSecretKey(): Uint8Array {
-  const secret = process.env.SESSION_SECRET || "acceder_dev_secret_key_minimum_32_chars_long_123456";
-  return new TextEncoder().encode(secret);
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) {
+    throw new Error("SESSION_SECRET debe estar configurada para iniciar ACCEDER.");
+  }
+
+  const key = new TextEncoder().encode(secret);
+  if (key.byteLength < MINIMUM_SECRET_BYTES) {
+    throw new Error("SESSION_SECRET debe contener al menos 32 bytes.");
+  }
+
+  return key;
 }
 
+// Fallar durante la carga del módulo evita que una configuración incompleta
+// llegue a atender solicitudes con una clave predecible.
+const sessionKey = getSecretKey();
+
 /**
- * Cifra y firma el payload de sesión utilizando HMAC SHA-256 (HS256).
+ * Firma el payload de sesión utilizando HMAC SHA-256 (HS256).
  */
 export async function encryptSession(payload: Omit<SessionPayload, "exp">): Promise<string> {
-  const key = getSecretKey();
   return new SignJWT({ ...payload })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(`${SESSION_DURATION_DAYS}d`)
-    .sign(key);
+    .sign(sessionKey);
 }
 
 /**
- * Desencripta y valida la firma y vigencia del token de sesión.
+ * Valida la firma y vigencia del token de sesión.
  * Si el token es inválido o expiró, retorna null sin lanzar excepciones hacia el cliente.
  */
 export async function decryptSession(token: string | undefined): Promise<SessionPayload | null> {
   if (!token) return null;
   try {
-    const key = getSecretKey();
-    const { payload } = await jwtVerify(token, key, {
+    const { payload } = await jwtVerify(token, sessionKey, {
       algorithms: ["HS256"],
     });
     return payload as unknown as SessionPayload;

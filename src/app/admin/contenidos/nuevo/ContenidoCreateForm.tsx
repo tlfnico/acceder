@@ -4,7 +4,7 @@ import React, { useState, useActionState } from "react";
 import Link from "next/link";
 import { Modulo } from "@/lib/types";
 import { CategoriaAdmin } from "@/data/categorias";
-import { crearContenidoAction, ContenidoFormState } from "../../actions/contenidos-actions";
+import { crearContenidoAction } from "../../actions/contenidos-actions";
 import styles from "../../admin-form.module.css";
 
 interface ContenidoCreateFormProps {
@@ -117,6 +117,7 @@ export default function ContenidoCreateForm({ modulos, categorias }: ContenidoCr
               name="titulo"
               type="text"
               required
+              maxLength={200}
               className={styles.input}
               placeholder="Ej: Obtención del CUD por primera vez"
             />
@@ -130,6 +131,7 @@ export default function ContenidoCreateForm({ modulos, categorias }: ContenidoCr
               id="descripcion"
               name="descripcion"
               required
+              maxLength={20000}
               className={styles.textarea}
               placeholder="Detalle paso a paso los requisitos, documentación a presentar y modalidades de atención..."
               style={{ minHeight: "140px" }}
@@ -152,6 +154,7 @@ export default function ContenidoCreateForm({ modulos, categorias }: ContenidoCr
                 id="direccion"
                 name="direccion"
                 type="text"
+                maxLength={255}
                 className={styles.input}
                 placeholder="Ej: Av. Paseo Colón 533, CABA"
               />
@@ -165,6 +168,7 @@ export default function ContenidoCreateForm({ modulos, categorias }: ContenidoCr
                 id="telefono"
                 name="telefono"
                 type="text"
+                maxLength={50}
                 className={styles.input}
                 placeholder="Ej: 0800-555-3472"
               />
@@ -180,6 +184,7 @@ export default function ContenidoCreateForm({ modulos, categorias }: ContenidoCr
                 id="email"
                 name="email"
                 type="email"
+                maxLength={255}
                 className={styles.input}
                 placeholder="Ej: contacto@andis.gob.ar"
               />
@@ -193,6 +198,7 @@ export default function ContenidoCreateForm({ modulos, categorias }: ContenidoCr
                 id="horario"
                 name="horario"
                 type="text"
+                maxLength={255}
                 className={styles.input}
                 placeholder="Ej: Lunes a Viernes de 8:00 a 16:00 hs"
               />
@@ -207,6 +213,7 @@ export default function ContenidoCreateForm({ modulos, categorias }: ContenidoCr
               id="enlace"
               name="enlace"
               type="url"
+              maxLength={500}
               className={styles.input}
               placeholder="Ej: https://www.argentina.gob.ar/andis"
             />

@@ -26,6 +26,18 @@ CREATE TABLE usuario (
 );
 
 -- -----------------------------------------------------------------------------
+-- 2.1 TABLA: login_rate_limit
+-- Almacena hashes de identificadores de login, nunca IPs ni correos en claro.
+-- -----------------------------------------------------------------------------
+CREATE TABLE login_rate_limit (
+    identifier_hash CHAR(64) PRIMARY KEY,
+    attempts INTEGER NOT NULL DEFAULT 0 CHECK (attempts >= 0),
+    window_started_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    locked_until TIMESTAMPTZ NULL,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- -----------------------------------------------------------------------------
 -- 3. TABLA: modulo
 -- -----------------------------------------------------------------------------
 CREATE TABLE modulo (
@@ -91,6 +103,10 @@ EXECUTE FUNCTION actualizar_fecha_modificacion();
 
 -- Filtrado de usuarios por rol en panel administrativo
 CREATE INDEX idx_usuario_id_rol ON usuario(id_rol);
+
+CREATE INDEX idx_login_rate_limit_locked_until
+    ON login_rate_limit (locked_until)
+    WHERE locked_until IS NOT NULL;
 
 -- Filtrado de categorías por módulo y estado activo
 CREATE INDEX idx_categoria_modulo_activo ON categoria(id_modulo, activo);

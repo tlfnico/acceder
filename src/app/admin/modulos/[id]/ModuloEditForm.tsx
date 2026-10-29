@@ -3,7 +3,7 @@
 import React, { useActionState } from "react";
 import Link from "next/link";
 import { Modulo } from "@/lib/types";
-import { editarModuloAction, ModuloFormState } from "../../actions/modulos-actions";
+import { editarModuloAction } from "../../actions/modulos-actions";
 import styles from "../../admin-form.module.css";
 
 interface ModuloEditFormProps {

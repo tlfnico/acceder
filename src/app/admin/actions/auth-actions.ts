@@ -5,6 +5,13 @@ import { getUsuarioAuthByEmail } from "@/data/usuarios";
 import { verifyPassword } from "@/lib/auth-helpers";
 import { createSessionCookie, deleteSessionCookie } from "@/lib/session";
 import { RolNombre } from "@/lib/types";
+import {
+  clearLoginFailures,
+  getLoginRateLimitKeys,
+  isLoginRateLimited,
+  registerLoginFailure,
+} from "@/data/login-rate-limit";
+import { headers } from "next/headers";
 
 export interface AuthState {
   error?: string;
@@ -24,20 +31,33 @@ export async function loginAction(
     return { error: "Por favor, complete todos los campos obligatorios." };
   }
 
+  const requestHeaders = await headers();
+  const ipAddress = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || requestHeaders.get("x-real-ip")
+    || "unknown";
+  const rateLimitKeys = getLoginRateLimitKeys(email, ipAddress);
+  const genericErrorMessage = "Credenciales inválidas o cuenta inactiva.";
+
   try {
+    if (await isLoginRateLimited(rateLimitKeys)) {
+      return { error: "Demasiados intentos. Espere unos minutos antes de volver a intentarlo." };
+    }
+
     const usuario = await getUsuarioAuthByEmail(email);
 
     // Mensaje genérico para prevenir enumeración de usuarios
-    const genericErrorMessage = "Credenciales inválidas o cuenta inactiva.";
-
     if (!usuario || !usuario.activo) {
+      await registerLoginFailure(rateLimitKeys);
       return { error: genericErrorMessage };
     }
 
     const passwordMatch = await verifyPassword(contrasenia, usuario.contrasenia);
     if (!passwordMatch) {
+      await registerLoginFailure(rateLimitKeys);
       return { error: genericErrorMessage };
     }
+
+    await clearLoginFailures(rateLimitKeys);
 
     // Establecer sesión segura en cookie HttpOnly
     await createSessionCookie({

@@ -17,6 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es">
       <body>
+        <a className="skipLink" href="#contenido-principal">
+          Saltar al contenido principal
+        </a>
         <Header />
         <main id="contenido-principal" className="main-container">
           {children}

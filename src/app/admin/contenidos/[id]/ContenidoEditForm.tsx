@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Modulo } from "@/lib/types";
 import { CategoriaAdmin } from "@/data/categorias";
 import { ContenidoAdmin } from "@/data/contenidos";
-import { editarContenidoAction, ContenidoFormState } from "../../actions/contenidos-actions";
+import { editarContenidoAction } from "../../actions/contenidos-actions";
 import styles from "../../admin-form.module.css";
 
 interface ContenidoEditFormProps {
@@ -128,6 +128,7 @@ export default function ContenidoEditForm({
               name="titulo"
               type="text"
               required
+              maxLength={200}
               defaultValue={contenido.titulo}
               className={styles.input}
             />
@@ -141,6 +142,7 @@ export default function ContenidoEditForm({
               id="descripcion"
               name="descripcion"
               required
+              maxLength={20000}
               defaultValue={contenido.descripcion}
               className={styles.textarea}
               style={{ minHeight: "140px" }}
@@ -163,6 +165,7 @@ export default function ContenidoEditForm({
                 id="direccion"
                 name="direccion"
                 type="text"
+                maxLength={255}
                 defaultValue={contenido.direccion || ""}
                 className={styles.input}
               />
@@ -176,6 +179,7 @@ export default function ContenidoEditForm({
                 id="telefono"
                 name="telefono"
                 type="text"
+                maxLength={50}
                 defaultValue={contenido.telefono || ""}
                 className={styles.input}
               />
@@ -191,6 +195,7 @@ export default function ContenidoEditForm({
                 id="email"
                 name="email"
                 type="email"
+                maxLength={255}
                 defaultValue={contenido.email || ""}
                 className={styles.input}
               />
@@ -204,6 +209,7 @@ export default function ContenidoEditForm({
                 id="horario"
                 name="horario"
                 type="text"
+                maxLength={255}
                 defaultValue={contenido.horario || ""}
                 className={styles.input}
               />
@@ -218,6 +224,7 @@ export default function ContenidoEditForm({
               id="enlace"
               name="enlace"
               type="url"
+              maxLength={500}
               defaultValue={contenido.enlace || ""}
               className={styles.input}
             />

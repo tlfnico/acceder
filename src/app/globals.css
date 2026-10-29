@@ -109,6 +109,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.skipLink {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  transform: translateY(-120%);
+}
+
+.skipLink:focus {
+  transform: translateY(0);
+}
+
 /* Foco visible para navegación accesible por teclado */
 :focus-visible {
   outline: var(--color-focus-outline);

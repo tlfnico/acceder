@@ -10,6 +10,9 @@ import { query, pool } from '../src/data/db';
  */
 async function main() {
   console.log('--- ACCEDER: Ejecutando Seed de Datos de Prueba (PostgreSQL Local) ---');
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('db:seed está bloqueado cuando NODE_ENV=production.');
+  }
   
   const seedFilePath = path.resolve(process.cwd(), 'database', 'seed.sql');
   if (!fs.existsSync(seedFilePath)) {

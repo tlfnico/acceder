@@ -4,7 +4,7 @@ import React, { useActionState } from "react";
 import Link from "next/link";
 import { Modulo } from "@/lib/types";
 import { CategoriaAdmin } from "@/data/categorias";
-import { editarCategoriaAction, CategoriaFormState } from "../../actions/categorias-actions";
+import { editarCategoriaAction } from "../../actions/categorias-actions";
 import styles from "../../admin-form.module.css";
 
 interface CategoriaEditFormProps {

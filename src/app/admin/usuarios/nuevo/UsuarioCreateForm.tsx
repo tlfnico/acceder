@@ -3,7 +3,7 @@
 import React, { useActionState } from "react";
 import Link from "next/link";
 import { Rol } from "@/lib/types";
-import { crearUsuarioAction, UsuarioFormState } from "../../actions/usuarios-actions";
+import { crearUsuarioAction } from "../../actions/usuarios-actions";
 import styles from "../../admin-form.module.css";
 
 interface UsuarioCreateFormProps {
@@ -109,9 +109,10 @@ export default function UsuarioCreateForm({ roles }: UsuarioCreateFormProps) {
               name="contrasenia"
               type="password"
               required
-              minLength={6}
+              minLength={12}
+              maxLength={128}
               className={styles.input}
-              placeholder="Mínimo 6 caracteres"
+              placeholder="Entre 12 y 128 caracteres"
             />
             <span className={styles.hint}>
               La contraseña se almacenará de manera segura mediante cifrado hash con bcryptjs.

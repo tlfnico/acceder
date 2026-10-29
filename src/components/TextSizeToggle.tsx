@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import styles from "./TextSizeToggle.module.css";
 
@@ -8,7 +8,20 @@ const STORAGE_KEY = "acceder-text-size";
 
 export const TextSizeToggle: React.FC = () => {
   const pathname = usePathname();
-  const [isLarge, setIsLarge] = useState(false);
+  const isLarge = useSyncExternalStore(
+    (onStoreChange) => {
+      window.addEventListener("acceder-text-size-change", onStoreChange);
+      return () => window.removeEventListener("acceder-text-size-change", onStoreChange);
+    },
+    () => {
+      try {
+        return localStorage.getItem(STORAGE_KEY) === "large";
+      } catch {
+        return false;
+      }
+    },
+    () => false
+  );
 
   // Sincronizar preferencia con localStorage y verificar si estamos en ruta pública
   useEffect(() => {
@@ -18,20 +31,12 @@ export const TextSizeToggle: React.FC = () => {
       return;
     }
 
-    // En el portal público, aplicar la preferencia guardada en el cliente
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === "large") {
-        setIsLarge(true);
-        document.body.setAttribute("data-text-size", "large");
-      } else {
-        setIsLarge(false);
-        document.body.removeAttribute("data-text-size");
-      }
-    } catch {
-      // Manejar entornos donde localStorage esté deshabilitado por privacidad
+    if (isLarge) {
+      document.body.setAttribute("data-text-size", "large");
+    } else {
+      document.body.removeAttribute("data-text-size");
     }
-  }, [pathname]);
+  }, [isLarge, pathname]);
 
   // Si estamos en el panel administrativo, no renderizar el botón
   if (pathname?.startsWith("/admin")) {
@@ -40,8 +45,6 @@ export const TextSizeToggle: React.FC = () => {
 
   const handleToggle = () => {
     const nextState = !isLarge;
-    setIsLarge(nextState);
-
     if (nextState) {
       document.body.setAttribute("data-text-size", "large");
       try {
@@ -57,6 +60,7 @@ export const TextSizeToggle: React.FC = () => {
         // Fallback silencioso
       }
     }
+    window.dispatchEvent(new Event("acceder-text-size-change"));
   };
 
   return (

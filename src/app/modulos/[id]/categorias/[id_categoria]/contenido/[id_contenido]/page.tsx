@@ -5,6 +5,7 @@ import { getModuloById } from "@/data/modulos";
 import { getCategoriaById } from "@/data/categorias";
 import { getContenidoById } from "@/data/contenidos";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { isValidExternalUrl, normalizePhone } from "@/lib/validation";
 import styles from "./page.module.css";
 
 interface ContentPageProps {
@@ -49,11 +50,13 @@ export default async function ContentPage({ params }: ContentPageProps) {
   }
 
   // Evaluar si existe al menos un campo opcional de contacto/ubicación
+  const telefono = contenido.telefono ? normalizePhone(contenido.telefono) : null;
+  const enlace = contenido.enlace && isValidExternalUrl(contenido.enlace) ? contenido.enlace : null;
   const tieneDatosContacto = Boolean(
     contenido.direccion ||
-    contenido.telefono ||
+    telefono ||
     contenido.email ||
-    contenido.enlace ||
+    enlace ||
     contenido.horario
   );
 
@@ -98,12 +101,12 @@ export default async function ContentPage({ params }: ContentPageProps) {
             )}
 
             {/* Teléfono accesible con enlace tel: */}
-            {contenido.telefono && (
+            {telefono && (
               <div className={styles.contactItem}>
                 <dt className={styles.label}>📞 Teléfono de contacto:</dt>
                 <dd className={styles.value}>
-                  <a href={`tel:${contenido.telefono.replace(/\s+/g, "")}`} className={styles.actionLink}>
-                    {contenido.telefono}
+                  <a href={`tel:${telefono.replace(/\s+/g, "")}`} className={styles.actionLink}>
+                    {telefono}
                   </a>
                 </dd>
               </div>
@@ -122,18 +125,18 @@ export default async function ContentPage({ params }: ContentPageProps) {
             )}
 
             {/* Enlace externo seguro con target="_blank" rel="noopener noreferrer" */}
-            {contenido.enlace && (
+            {enlace && (
               <div className={styles.contactItem}>
                 <dt className={styles.label}>🌐 Sitio web de referencia:</dt>
                 <dd className={styles.value}>
                   <a
-                    href={contenido.enlace}
+                    href={enlace}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.externalLink}
                     aria-label={`Visitar sitio web externo: ${contenido.titulo} (se abre en nueva pestaña)`}
                   >
-                    {contenido.enlace} <span aria-hidden="true">↗</span>
+                    {enlace} <span aria-hidden="true">↗</span>
                   </a>
                 </dd>
               </div>

@@ -3,7 +3,7 @@
 import React, { useActionState } from "react";
 import Link from "next/link";
 import { Rol, UsuarioSeguro } from "@/lib/types";
-import { editarUsuarioAction, UsuarioFormState } from "../../actions/usuarios-actions";
+import { editarUsuarioAction } from "../../actions/usuarios-actions";
 import styles from "../../admin-form.module.css";
 
 interface UsuarioEditFormProps {
@@ -109,7 +109,8 @@ export default function UsuarioEditForm({ usuario, roles }: UsuarioEditFormProps
               id="contrasenia"
               name="contrasenia"
               type="password"
-              minLength={6}
+              minLength={12}
+              maxLength={128}
               className={styles.input}
               placeholder="Dejar en blanco para mantener la contraseña actual"
             />

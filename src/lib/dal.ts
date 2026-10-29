@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { getSession } from "./session";
-import { SessionPayload } from "./types";
+import { deleteSessionCookie, getSession } from "./session";
+import { RolNombre, SessionPayload, UsuarioSeguro } from "./types";
 import { getUsuarioById } from "@/data/usuarios";
 
 /**
@@ -15,8 +15,37 @@ import { getUsuarioById } from "@/data/usuarios";
  * 
  * Uso en Server Components y Layouts protegidos.
  */
-export async function verifySession(): Promise<SessionPayload> {
+function isRolNombre(rol: string | undefined): rol is RolNombre {
+  return rol === "ADMINISTRADOR" || rol === "PERSONAL_ACCESIBILIDAD";
+}
+
+function toSessionPayload(user: UsuarioSeguro): SessionPayload | null {
+  if (!user.activo || !isRolNombre(user.rol_nombre)) return null;
+  return {
+    userId: user.id,
+    email: user.email,
+    nombre: user.nombre,
+    apellido: user.apellido,
+    rolId: user.id_rol,
+    rolNombre: user.rol_nombre,
+  };
+}
+
+/** Obtiene la identidad vigente desde la base de datos, no desde el JWT. */
+export async function getVerifiedSession(): Promise<SessionPayload | null> {
   const session = await getSession();
+  if (!session?.userId) return null;
+
+  try {
+    const user = await getUsuarioById(session.userId);
+    return user ? toSessionPayload(user) : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function verifySession(): Promise<SessionPayload> {
+  const session = await getVerifiedSession();
   if (!session || !session.userId) {
     redirect("/admin/login");
   }
@@ -28,8 +57,9 @@ export async function verifySession(): Promise<SessionPayload> {
  * Si no está autenticado, arroja un error controlado para evitar ejecuciones no autorizadas.
  */
 export async function verifySessionAction(): Promise<SessionPayload> {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session || !session.userId) {
+    await deleteSessionCookie();
     throw new Error("No autenticado. Inicie sesión para continuar.");
   }
   return session;
@@ -40,18 +70,9 @@ export async function verifySessionAction(): Promise<SessionPayload> {
  * garantizando que la cuenta siga activa en tiempo real.
  */
 export async function getCurrentUser() {
-  const session = await getSession();
-  if (!session?.userId) return null;
-
-  try {
-    const user = await getUsuarioById(session.userId);
-    if (!user || !user.activo) {
-      return null;
-    }
-    return user;
-  } catch {
-    return null;
-  }
+  const session = await getVerifiedSession();
+  if (!session) return null;
+  return getUsuarioById(session.userId);
 }
 
 /**

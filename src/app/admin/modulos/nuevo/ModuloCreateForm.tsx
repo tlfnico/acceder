@@ -2,7 +2,7 @@
 
 import React, { useActionState } from "react";
 import Link from "next/link";
-import { crearModuloAction, ModuloFormState } from "../../actions/modulos-actions";
+import { crearModuloAction } from "../../actions/modulos-actions";
 import styles from "../../admin-form.module.css";
 
 export default function ModuloCreateForm() {

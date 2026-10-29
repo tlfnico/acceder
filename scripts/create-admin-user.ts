@@ -7,21 +7,29 @@ import { hashPassword } from "../src/lib/auth-helpers";
  * Permite sembrar de forma segura el primer usuario con rol ADMINISTRADOR
  * en el entorno local de desarrollo.
  * 
- * Parámetros opcionales vía variables de entorno:
- * - ADMIN_EMAIL (default: admin@acceder.gob.ar)
- * - ADMIN_PASSWORD (default: Admin1234!)
- * - ADMIN_NOMBRE (default: Administrador)
- * - ADMIN_APELLIDO (default: General)
+ * Variables de entorno obligatorias:
+ * - ADMIN_EMAIL
+ * - ADMIN_PASSWORD (12 a 128 caracteres)
+ * Variables opcionales:
+ * - ADMIN_NOMBRE
+ * - ADMIN_APELLIDO
  */
 async function main() {
   console.log("=================================================");
   console.log("ACCEDER — Creación de Usuario Administrador Inicial");
   console.log("=================================================");
 
-  const email = (process.env.ADMIN_EMAIL || "admin@acceder.gob.ar").trim().toLowerCase();
-  const password = process.env.ADMIN_PASSWORD || "Admin1234!";
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const password = process.env.ADMIN_PASSWORD;
   const nombre = (process.env.ADMIN_NOMBRE || "Administrador").trim();
   const apellido = (process.env.ADMIN_APELLIDO || "General").trim();
+
+  if (!email || !password) {
+    throw new Error("ADMIN_EMAIL y ADMIN_PASSWORD son obligatorias.");
+  }
+  if (password.length < 12 || password.length > 128) {
+    throw new Error("ADMIN_PASSWORD debe contener entre 12 y 128 caracteres.");
+  }
 
   try {
     // 1. Obtener el ID del rol ADMINISTRADOR
